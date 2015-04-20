@@ -3,16 +3,11 @@
   "description": "Esse pacote tem como objetivo automatizar a integração com a Rest API da Dito.",
   "homepage": "http://developers.dito.com.br/docs/sdks/php",
   "license": "MIT",
-  "keywords": [
-    "dito",
-    "dito php"
-  ],
-  "authors": [
-    {
-        "name": "Marcos Nogueira",
-        "email": "marcos.nogueira@dito.com.br"
-    }
-  ],
+  "keywords": ["dito", "dito php"],
+  "authors": [{
+    "name": "Marcos Nogueira",
+    "email": "marcos.nogueira@dito.com.br"
+  }],
   "require": {
     "php": ">=5.0"
   },
