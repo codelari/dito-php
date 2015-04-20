@@ -1,6 +1,7 @@
 {
   "name": "dito/dito-php",
   "description": "Esse pacote tem como objetivo automatizar a integração com a Rest API da Dito.",
+  "version": "0.0.1",
   "authors": [
     {
         "name": "Marcos Nogueira",
