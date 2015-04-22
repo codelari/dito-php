@@ -135,7 +135,7 @@ class Dito {
   }
 
   public function track($options = array()){
-    $credentials = $this->generateIDAndIDType($options);
+    $credentials = $this->generateCredentials($options);
     $id = $credentials['id'];
     $idType = $credentials['idType'];
 
@@ -151,9 +151,51 @@ class Dito {
     return $this->request('post', 'events', '/users/'. $id, $params);
   }
 
+  public function alias($options = array()){
+    $settings = $this->generateAliasSettings($options);
+
+    if(isset($settings['error'])) return array('error' => $settings['error']);
+
+    return $this->request('post', 'login', '/users/'. $settings['id'] . '/link', $settings['params']);
+  }
+
+  public function unalias($options = array()){
+    $settings = $this->generateAliasSettings($options);
+
+    if(isset($settings['error'])) return array('error' => $settings['error']);
+
+    return $this->request('post', 'login', '/users/'. $settings['id'] . '/unlink', $settings['params']);
+  }
+
   private
 
-  function generateIDAndIDType($options = array()){
+  function generateAliasSettings($options = array()){
+    $credentials = $this->generateCredentials($options);
+    $id = $credentials['id'];
+    $idType = $credentials['idType'];
+
+    if(!isset($id)){
+      return array(
+        'error' => array('message' => 'Missing the user id param. See the available options here: http://developers.dito.com.br/docs/sdks/ruby')
+      );
+    }
+
+    if(!isset($options['accounts'])){
+      return array(
+        'error' => array('message' => 'Missing the accounts param. See the available options here: http://developers.dito.com.br/docs/rest-api/users')
+      );
+    }
+
+    $params = array('accounts' => $options['accounts']);
+    if(isset($idType)) $params['id_type'] = $idType;
+
+    return array(
+      'id' => $id,
+      'params' => $params
+    );
+  }
+
+  function generateCredentials($options = array()){
     if(isset($options['reference'])){
       $id = $options['reference'];
       $idType = nil;

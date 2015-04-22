@@ -6,6 +6,16 @@ $dito = new Dito(array(
   'secret' => 'HNVksCIUywbCIBJOv3UjgqmA7p5chPPFrpBbqvFW'
 ));
 
+print_r($dito->alias(array(
+  'id' => 1231232131,
+  'accounts' => array(
+    'facebook' => array(
+      'id' => '10202840988483394',
+      'access_token' => 'CAALrJyxmEMoBAEyGMZB9ejtNZC4I0ZCRfey5Vba1JxUwaMK3ZBBb46mg1xEwaWJZCZCEKhEv1VXyNoJRNBDlSwR3UjvKuZBMqkgDtefeNbqi0YdQMHbxnh6w9ZCaG9zSnYJ7KslGpv2dWtE45QPbo8ZAHllFpskq8GVvMh9z3Wl33i3WP2ZAO8ZBRttiTSu9XwlirLtJ0kv7nyYXICmvj5ZAZCl1t'
+    )
+  )
+)));
+
 // $dito->identify(array(
 //   'id' => 1231232131,
 //   'name' => 'Marcos',
