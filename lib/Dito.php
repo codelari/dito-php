@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Dito {
   public function __construct($options = array()){
@@ -25,10 +25,10 @@ class Dito {
       "badge" => 'badge',
       "notification" => 'notification'
     );
-  
+
     if($domains[$moduleName]){
       $name = $domains[$moduleName];
-    
+
       switch ($this->environment) {
         case 'production':
           $url = "https://". $name .".plataformasocial.com.br";
@@ -58,18 +58,18 @@ class Dito {
     $params['sha1_signature'] = sha1($this->secret);
 
     $headers['Content-type'] = 'application/x-www-form-urlencoded';
-    
+
     $http = array();
 
     $http['header'] = "";
     foreach($headers as $key=>$header){
       $http['header'] .= $key . ": " . $header . "\r\n";
     }
-    
+
     $http['method'] = strtoupper($method);
 
     if($method == 'get') {
-      $url . '?' . http_build_query($params);
+      $url = $url . '?' . http_build_query($params);
     }
     else {
       $http['content'] = http_build_query($params);
@@ -80,7 +80,7 @@ class Dito {
     );
 
     $context  = stream_context_create($options);
-    
+
     return file_get_contents($url, false, $context);
   }
 
