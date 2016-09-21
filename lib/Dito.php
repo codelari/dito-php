@@ -57,7 +57,7 @@ class Dito {
     $params['platform_api_key'] = $this->apiKey;
     $params['sha1_signature'] = sha1($this->secret);
 
-    $headers['Content-type'] = 'application/x-www-form-urlencoded';
+    $headers['Content-type'] = 'application/json';
 
     $http = array();
 
@@ -72,7 +72,7 @@ class Dito {
       $url = $url . '?' . http_build_query($params);
     }
     else {
-      $http['content'] = http_build_query($params);
+      $http['content'] = json_encode($params);
     }
 
     $options = array(
