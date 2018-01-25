@@ -30,9 +30,27 @@ $dito = new Dito(array(
 //   )
 // ));
 
-$dito->track(array(
-  'facebook_id' => '10202840988483394',
-  'event' => array(
-    'action' => 'acao-teste'
-  )
-));
+// $dito->track(array(
+//   'facebook_id' => '10202840988483394',
+//   'event' => array(
+//     'action' => 'acao-teste'
+//   )
+// ));
+
+// $dito->identify(array(
+//   'id' => 3123123321,
+//   'name' => 'Pedro Paiva',
+//   'email' => 'pedro.paiva@dito.com.br',
+//   'data' => array(
+//     'cargo' => 'Desenvolvedor'
+//   )
+// ));
+
+// $dito->link(array(
+//   'id' => 3123123321,
+//   'accounts' => array(
+//     'portal' => array(
+//       'id' => 10202840988483394,
+//     )
+//   )
+// ));
