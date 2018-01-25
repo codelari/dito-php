@@ -151,7 +151,7 @@ class Dito {
     return $this->request('post', 'events', '/users/'. $id, $params);
   }
 
-  public function link($options = array()) {
+  private function buildParamsLinkUnlink($options = array()) {
     $credentials = $this->generateIDAndIDType($options);
     $id = $credentials['id'];
     $idType = $credentials['idType'];
@@ -167,7 +167,19 @@ class Dito {
     if(isset($idType)) $params['id_type'] = $idType;
     if(isset($networkName)) $params['network_name'] = $networkName;
 
+    return [$id, $params];
+  }
+
+  public function link($options = array()) {
+    list($id, $params) = $this->buildParamsLinkUnlink($options);
+
     return $this->request('post', 'login', "/users/{$id}/link", $params);
+  }
+
+  public function unlink($options = array()) {
+    list($id, $params) = $this->buildParamsLinkUnlink($options);
+
+    return $this->request('post', 'login', "/users/{$id}/unlink", $params);
   }
 
   private
