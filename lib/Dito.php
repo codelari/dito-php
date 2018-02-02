@@ -141,7 +141,7 @@ class Dito {
 
     if(!isset($id)){
       return array(
-        'error' => array('message' => 'Missing the user id param. See the available options here: http://developers.dito.com.br/docs/sdks/ruby')
+        'error' => array('message' => 'Missing the user id param. See the available options here: http://developers.dito.com.br/docs/php-sdk')
       );
     }
 
@@ -151,30 +151,54 @@ class Dito {
     return $this->request('post', 'events', '/users/'. $id, $params);
   }
 
+  public function link($options = array()) {
+    $credentials = $this->generateIDAndIDType($options);
+    $id = $credentials['id'];
+    $idType = $credentials['idType'];
+    $networkName = $credentials['networkName'];
+
+    if(!isset($id)){
+      return array(
+        'error' => array('message' => 'Missing the user id param. See the available options here: http://developers.dito.com.br/docs/php-sdk')
+      );
+    }
+
+    $params = array('accounts' => json_encode($options['accounts']));
+    if(isset($idType)) $params['id_type'] = $idType;
+    if(isset($networkName)) $params['network_name'] = $networkName;
+
+    return $this->request('post', 'login', "/users/{$id}/link", $params);
+  }
+
   private
 
   function generateIDAndIDType($options = array()){
     if(isset($options['reference'])){
       $id = $options['reference'];
       $idType = nil;
+      $networkName = nil;
     }
     else if(isset($options['facebook_id'])){
       $id = $options['facebook_id'];
       $idType = 'facebook_id';
+      $networkName = 'fb';
     }
     else if(isset($options['google_plus_id'])){
       $id = $options['google_plus_id'];
       $idType = 'google_plus_id';
+      $networkName = 'pl';
     }
     else if(isset($options['twitter_id'])){
       $id = $options['twitter_id'];
       $idType = 'twitter_id';
+      $networkName = 'tw';
     }
     else if(isset($options['id'])){
       $id = $options['id'];
       $idType = 'id';
+      $networkName = 'pt';
     }
 
-    return array('id' => $id, 'idType' => $idType);
+    return array('id' => $id, 'idType' => $idType, 'networkName' => $networkName);
   }
 }
