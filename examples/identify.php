@@ -54,3 +54,12 @@ $dito = new Dito(array(
 //     )
 //   )
 // ));
+
+// $dito->unlink(array(
+//   'id' => 3123123321,
+//   'accounts' => array(
+//     'portal' => array(
+//       'id' => 10202840988483394,
+//     )
+//   )
+// ));

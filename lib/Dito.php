@@ -151,11 +151,22 @@ class Dito {
     return $this->request('post', 'events', '/users/'. $id, $params);
   }
 
-  public function link($options = array()) {
+  private function buildParamsLinkUnlink($options = array()) {
     $credentials = $this->generateIDAndIDType($options);
     $id = $credentials['id'];
     $idType = $credentials['idType'];
     $networkName = $credentials['networkName'];
+
+    $params = array('accounts' => json_encode($options['accounts']));
+    if(isset($idType)) $params['id_type'] = $idType;
+    if(isset($networkName)) $params['network_name'] = $networkName;
+
+    return [$id, $params];
+  }
+
+  private function validationParamsLinkUnlink($options = array()) {
+    $credentials = $this->generateIDAndIDType($options);
+    $id = $credentials['id'];
 
     if(!isset($id)){
       return array(
@@ -163,11 +174,33 @@ class Dito {
       );
     }
 
-    $params = array('accounts' => json_encode($options['accounts']));
-    if(isset($idType)) $params['id_type'] = $idType;
-    if(isset($networkName)) $params['network_name'] = $networkName;
+    if(!isset($options['accounts']) || !is_array($options['accounts']) || count($options['accounts']) == 0) {
+      return array(
+        'error' => array('message' => 'Missing the user accounts params. See the available options here: http://developers.dito.com.br/docs/php-sdk')
+      );
+    }
+
+    return false;
+  }
+
+  public function link($options = array()) {
+    if($error = $this->validationParamsLinkUnlink($options)) {
+      return $error;
+    }
+
+    list($id, $params) = $this->buildParamsLinkUnlink($options);
 
     return $this->request('post', 'login', "/users/{$id}/link", $params);
+  }
+
+  public function unlink($options = array()) {
+    if($error = $this->validationParamsLinkUnlink($options)) {
+      return $error;
+    }
+    
+    list($id, $params) = $this->buildParamsLinkUnlink($options);
+
+    return $this->request('post', 'login', "/users/{$id}/unlink", $params);
   }
 
   private
@@ -175,8 +208,8 @@ class Dito {
   function generateIDAndIDType($options = array()){
     if(isset($options['reference'])){
       $id = $options['reference'];
-      $idType = nil;
-      $networkName = nil;
+      $idType = null;
+      $networkName = null;
     }
     else if(isset($options['facebook_id'])){
       $id = $options['facebook_id'];
@@ -197,6 +230,10 @@ class Dito {
       $id = $options['id'];
       $idType = 'id';
       $networkName = 'pt';
+    } else {
+      $id = null;
+      $idType = null;
+      $networkName = null;
     }
 
     return array('id' => $id, 'idType' => $idType, 'networkName' => $networkName);
